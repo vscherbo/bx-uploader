@@ -5,15 +5,26 @@ require("set-doc-root.php");
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 
-if ($argv[1] == "")
+$shortopts  = "";
+$shortopts .= "n:";  // name - обязательное значение
+$shortopts .= "m::"; // id раздела модификаторов - необязательное значение
+$shortopts .= "p::"; // id раздела цен-сроков - необязательное значение
+
+
+$options = getopt($shortopts);
+// var_dump($options);
+
+
+// if ($argv[1] == "")
+if ($options["n"] == "")
 {
-        echo $argv[0]." ERROR: 1st parameter Model_name is required.\n";
-            exit(1);
+        echo $argv[0]." ERROR: parameter -n Model_name is required.\n";
+        exit(1);
 }
 
 $arFilter = array(
     "IBLOCK_ID" => "29",
-    "NAME" => $argv[1],
+    "NAME" => $options["n"],
     //"NAME" => "AR-HP350",
 );
 
@@ -28,11 +39,11 @@ while($ob = $rsItems->GetNextElement())
     $arFields = $ob->GetFields();
     // echo $arFields["NAME"]."\n";
 
-    if ($argv[2] != "")
-        $el->SetPropertyValues($arFields["ID"], 29, $argv[2], "MOD_ITEM_ID");
+    if ($options["m"] != "")
+        $el->SetPropertyValues($arFields["ID"], 29, $options["m"], "MOD_ITEM_ID");
 
-    if ($argv[3] != "")
-        $el->SetPropertyValues($arFields["ID"], 29, $argv[3], "MOD_SECTION_ID");
+    if ($options["p"] != "")
+        $el->SetPropertyValues($arFields["ID"], 29, $options["p"], "MOD_SECTION_ID");
 
     CSiteFinance::UpdateItemFinanceInfo($arFields["ID"]);
     $res = $el->Update($arFields["ID"]);
