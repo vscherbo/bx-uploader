@@ -7,7 +7,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.ph
 
 if ($argv[1] == "")
 {
-    echo $argv[0]." ERROR: 1st parameter Model_name is required.\n";
+    fwrite(STDERR, $argv[0]." ERROR: 1st parameter Model_name is required.\n" );
     exit(1);
 }
 

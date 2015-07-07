@@ -18,7 +18,7 @@ $options = getopt($shortopts);
 // if ($argv[1] == "")
 if ($options["n"] == "")
 {
-        echo $argv[0]." ERROR: parameter -n Model_name is required.\n";
+        fwrite(STDERR, $argv[0]." ERROR: parameter -n Model_name is required.\n" );
         exit(1);
 }
 
@@ -48,7 +48,7 @@ while($ob = $rsItems->GetNextElement())
     CSiteFinance::UpdateItemFinanceInfo($arFields["ID"]);
     $res = $el->Update($arFields["ID"]);
     if ($res) { echo $arFields["ID"]; }
-    else {      echo "False\n";}
+    else {      fwrite(STDERR, "Update ib29 failed\n" );}
 }
 
 ?>
