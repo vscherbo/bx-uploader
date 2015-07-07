@@ -15,7 +15,6 @@ $options = getopt($shortopts);
 // var_dump($options);
 
 
-// if ($argv[1] == "")
 if ($options["n"] == "")
 {
         fwrite(STDERR, $argv[0]." ERROR: parameter -n Model_name is required.\n" );
@@ -25,7 +24,6 @@ if ($options["n"] == "")
 $arFilter = array(
     "IBLOCK_ID" => "29",
     "NAME" => $options["n"],
-    //"NAME" => "AR-HP350",
 );
 
 //$arSelect = Array("ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_VALUES");
