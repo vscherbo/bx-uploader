@@ -36,6 +36,7 @@ while($ob = $rsItems->GetNextElement())
 {
     $arFields = $ob->GetFields();
     // echo $arFields["NAME"]."\n";
+    // echo $arFields["ID"]."\n";
 
     if ($options["m"] != "")
         $el->SetPropertyValues($arFields["ID"], 29, $options["m"], "MOD_ITEM_ID");
