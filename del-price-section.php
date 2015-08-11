@@ -1,6 +1,5 @@
 #!/usr/bin/env php
 <?php
-// $_SERVER["DOCUMENT_ROOT"] = "/home/bitrix/ext_www/kipspb2.arc.world";
 require("set-doc-root.php");
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
@@ -8,8 +7,7 @@ CModule::IncludeModule("catalog");
 
 if ($argv[1] == "")
 {
-    //echo $argv[0]." ERROR: 1st parameter XML_ID is required.\n";
-    fwrite(STDERR, $argv[0]." ERROR: 1st parameter XML_ID is required.\n");
+    fwrite(STDERR, $argv[0]." ERROR: 1st parameter Model_name is required.\n");
     exit(1);
 }
 
