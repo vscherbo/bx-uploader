@@ -44,12 +44,15 @@ if ( is_null($rsItems) )
     fwrite(STDERR, $argv[0]." ERROR: Section not found:". var_export($arFilter30) ."\n");
     exit(2);
 }
+
+$noElements = true;
 while($ob = $rsItems->GetNextElement())
 {
    $arSect = $ob->GetFields();
    // echo ">>>>>> Item:\n";
    // print_r($arSect);
 
+   $noElements = false;
    $DB->StartTransaction();
    if(!CIBlockSection::Delete($arSect["ID"]))
    {
@@ -61,6 +64,10 @@ while($ob = $rsItems->GetNextElement())
    else
        $DB->Commit();
 
+}
+
+if ( $noElements) {
+    	fwrite(STDERR, $argv[0]." WARNING: Prices-elements not found: ". var_export($arFilter30) ."\n" );
 }
 
 ?>
