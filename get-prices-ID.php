@@ -48,7 +48,9 @@ while($ob = $rsItems->GetNextElement())
     $ib29_prop674 = $arFields["PROPERTY_674_VALUE"];
 }
 
-if ($ib30_id != $ib29_prop674 ) {
+if ($ib30_id == $ib29_prop674 || is_null($ib29_prop674) ) {
+        echo $ib30_id;
+} else {
 	$arFilter = array(
 	    "IBLOCK_ID" => "30",
 	    "XML_ID" => $ib29_prop674,
@@ -64,8 +66,6 @@ if ($ib30_id != $ib29_prop674 ) {
 	 $prop674_name = $arFields["NAME"];
 	}
         fwrite(STDERR, "Model_name=". $argv[1] . ", PROP674=". $ib29_prop674 . " with Name=". $prop674_name . ", Modifications_byName_ID=". $ib30_id ."\n");
-} else {
-        echo $ib30_id;
 }
 
 ?>
