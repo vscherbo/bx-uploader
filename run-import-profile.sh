@@ -4,5 +4,5 @@
 
 # /usr/bin/php -f /home/bitrix/www/bitrix/php_interface/include/catalog_import/cron_frame.php $1
 
-/usr/bin/php $HOME/call-import-profile.php $1
+/usr/bin/php $ARC_PATH/call-import-profile.php $1
 
