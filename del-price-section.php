@@ -33,7 +33,7 @@ while($ob = $rsItems->GetNextElement())
 
 $arFilter30 = array(
     "IBLOCK_ID" => "30",
-    "XML_ID" => $prices_id,
+    "ID" => $prices_id,
 );
 $arSelect30 = Array("ID", "NAME", "DATE_ACTIVE_FROM");
 $rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, false, $arSelect30);
