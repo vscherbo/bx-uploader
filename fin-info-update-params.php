@@ -47,7 +47,7 @@ while($ob = $rsItems->GetNextElement())
     CSiteFinance::UpdateItemFinanceInfo($arFields["ID"]);
     $res = $el->Update($arFields["ID"]);
     if ($res) { echo $arFields["ID"]; }
-    else {      fwrite(STDERR, "Update ib29 failed\n" );}
+    else {      fwrite(STDERR, "Update ib29 failed: ". $el->LAST_ERROR . "\n" );}
 }
 
 ?>
