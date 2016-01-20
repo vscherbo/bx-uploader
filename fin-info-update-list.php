@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-require("set-doc-root.php");
+require(getenv("HOME"). "/set-doc-root.php");
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 
@@ -14,24 +14,27 @@ $options = getopt($shortopts);
 
 if ($options["f"] == "")
 {
-        fwrite(STDERR, $argv[0]." ERROR: parameter -f _filename.csv_ is required.\n" );
+        fwrite(STDERR, $argv[0]." ERROR: parameter -f _import-update.csv_ is required.\n" );
         exit(1);
 }
 
-// parse input CSV file, extract 3rd filed "model_name"
-$mod_name_ind=3;
-$row = 1;
+// parse input CSV file, extract a part of the 1st filed with delimiter ":" - model_name
+$mod_name_ind=0;
+$row = 0;
 if (($handle = fopen($options["f"], "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, "^")) !== FALSE) {
         $row++;
-        if ( 2 == $row ) continue; // skip 1st row with names
-        if (! in_array($data[$mod_name_ind], $arModels) ) {
-            $arModels[] = $data[$mod_name_ind];
+        if ( 1 == $row ) continue; // skip 1st row with names
+        list($mod_name, $mod_code) = explode(":", $data[$mod_name_ind]);
+        if (! in_array($mod_name, $arModels) ) {
+            $arModels[] = $mod_name;
         }
     }
-    print_r($arModels);
+    // debug print_r($arModels);
     fclose($handle);
 }
+
+//exit("Interrupted for debug\n");
 
 
 foreach ( $arModels as $model_name) {
@@ -46,18 +49,21 @@ foreach ( $arModels as $model_name) {
 	$rsItems = $el->GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
 	// print_r($rsItems);
 
+        $not_found = True;
 	while($ob = $rsItems->GetNextElement())
 	{
+            $not_found = False;
 	    $arFields = $ob->GetFields();
 	    // echo $arFields["NAME"]."\n";
 	    // echo $arFields["ID"]."\n";
 
-
 	    CSiteFinance::UpdateItemFinanceInfo($arFields["ID"]);
 	    $res = $el->Update($arFields["ID"]);
-	    if ($res) { echo $arFields["ID"]; }
-	    else {      fwrite(STDERR, "Update ib29 for $model_name failed\n" );}
+	    if (! $res) { fwrite(STDERR, "Update ib29 for $model_name failed\n" );}
 	}
+        if ( $not_found ) {
+           fwrite(STDERR, "Model $model_name not found in ib29\n" );
+        }
 
 } // for arModels
 
