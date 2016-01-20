@@ -30,10 +30,12 @@ while($ob = $rsItems->GetNextElement())
 	    $res = CIBlockElement::GetList(Array("SORT" => "ASC"), Array("IBLOCK_ID"=>"34", "ID"=>$ib34_id), false, false, Array("NAME"));
 	    if($ar_res = $res->GetNextElement()) {
 	      $ar_flds = $ar_res->GetFields();
+/*
 	      if ($ar_flds && $devName != $ar_flds['NAME'])
 		echo "Модификаторы=".$ar_flds['NAME']. " для прибора=". $devName ."\n" ;
+*/
 	    } else
-	      echo "Прибор=".$devName .", ib34_id=". $ib34_id ." not found\n";
+	      echo "Модификаторы для прибора=".$devName .", ib34_id=". $ib34_id ." не найдены\n";
     }
 
     //echo "\n".$arFields["PROPERTY_674_VALUE"]."\n";
