@@ -15,16 +15,35 @@ $options = getopt($shortopts);
 // var_dump($options);
 
 
-if ($options["n"] == "")
+if ( ($options["n"] != "") && ($options["i"] != "")  )
 {
-        fwrite(STDERR, $argv[0]." ERROR: parameter -n Model_name is required.\n" );
+        fwrite(STDERR, $argv[0]." ERROR: only one parameter -n Model_name OR -i XML_ID allowed.\n" );
         exit(1);
 }
 
-$arFilter = array(
-    "IBLOCK_ID" => "29",
-    "NAME" => $options["n"],
-);
+if ( ($options["n"] == "") && ($options["i"] == "")  )
+{
+        fwrite(STDERR, $argv[0]." ERROR: parameter -n Model_name OR -i XML_ID is required.\n" );
+        exit(1);
+}
+
+
+if ($options["n"] != "")
+{
+	$arFilter = array(
+	    "IBLOCK_ID" => "29",
+	    "NAME" => $options["n"],
+	//    "XML_ID" => $options["i"],
+	);
+}
+
+if ($options["i"] != "")
+{
+	$arFilter = array(
+	    "IBLOCK_ID" => "29",
+	    "XML_ID" => $options["i"],
+	);
+}
 
 //$arSelect = Array("ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_VALUES");
 
