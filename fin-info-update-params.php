@@ -6,7 +6,8 @@ require("set-doc-root.php");
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 
 $shortopts  = "";
-$shortopts .= "n:";  // name - обязательное значение
+$shortopts .= "n:";  // name - обязательное значение (или i)
+$shortopts .= "i:";  // xml_id - обязательное значение (или n)
 $shortopts .= "m::"; // id раздела модификаторов - необязательное значение
 $shortopts .= "p::"; // id раздела цен-сроков - необязательное значение
 
