@@ -24,31 +24,49 @@ $arSelect = Array("ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_674", "P
 $el = new CIBlockElement;
 $rsItems = $el->GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
 
+$notFound = true;
+
 while($ob = $rsItems->GetNextElement())
 {
     $arFields = $ob->GetFields();
+    $notFound = false;
     //$devName = $arFields["NAME"];
+    //print_r($arFields);
     $prices_id = $arFields["PROPERTY_674_VALUE"];
+}
+
+if ($notFound) {
+    fwrite(STDERR, $argv[0]." ERROR: Device not found:". var_export($arFilter) ."\n");
+    exit(2);
+}
+
+if (is_null($prices_id)) { //
+    echo "PROPERTY_674 is empty. Exit\n";
+    exit(0);
 }
 
 $arFilter30 = array(
     "IBLOCK_ID" => "30",
     "ID" => $prices_id,
+    "ACTIVE" => "Y",
 );
 $arSelect30 = Array("ID", "NAME", "DATE_ACTIVE_FROM");
 $rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, false, $arSelect30);
 if ( is_null($rsItems) )
 {
-    fwrite(STDERR, $argv[0]." ERROR: Section not found:". var_export($arFilter30) ."\n");
+    fwrite(STDERR, $argv[0]." ERROR: GetList returns null:". var_export($arFilter30) ."\n");
     exit(2);
+} else {
+    echo "Price section with id(prop674)=".$prices_id." found\n";
 }
 
 $noElements = true;
 while($ob = $rsItems->GetNextElement())
 {
    $arSect = $ob->GetFields();
-   // echo ">>>>>> Item:\n";
-   // print_r($arSect);
+   echo ">>>>>> Section_ID:";
+   print_r($arSect["ID"]);
+   echo "\n";
 
    $noElements = false;
    $DB->StartTransaction();
@@ -59,13 +77,43 @@ while($ob = $rsItems->GetNextElement())
     	fwrite(STDERR, $argv[0]." ERROR deleting:". var_export($arFilter30) ."\n" );
 	exit(3);
    }
-   else
+   else {
        $DB->Commit();
+       echo "Delete commited\n";
+/**/
+       // Check if deleted
+       $arFilter30 = array(
+         "IBLOCK_ID" => "30",
+         "ID" => $arSect["ID"],
+         "ACTIVE" => "Y",
+       );
+       $arSelect30 = Array("ID", "NAME", "DATE_ACTIVE_FROM");
+       $rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, false, $arSelect30);
+       if ( is_null($rsItems) ) {
+           echo "After DeleteSection GetList returns null\n";
+       } else {
+		    $noElements = true;
+            while($ob = $rsItems->GetNextElement())
+            {
+               $arSect = $ob->GetFields();
+               $noElements = false;
+            }
+            if ($noElements) {
+               echo "Deleted section not found. Ok.\n";
+            } else {  
+               fwrite(STDERR, $argv[0]." ERROR: Deleted section found:". var_export($arFilter30) ."\n");
+               exit(2);
+            }
+       }
+/**/
+   }
 
 }
 
+/*
 if ( $noElements) {
     	fwrite(STDERR, $argv[0]." WARNING: Prices-elements not found: ". var_export($arFilter30) ."\n" );
 }
+*/
 
 ?>
