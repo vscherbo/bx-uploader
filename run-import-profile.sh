@@ -8,7 +8,7 @@
 protect_csv() {
 # $1 - profile id
 # $2 - on/off
-CHATTR="sudo /usr/bin/chattr -V"
+CHATTR="sudo /usr/bin/chattr"
 if [ +$2 == "+on" ]
 then
    CHATTR=${CHATTR}" +i "
