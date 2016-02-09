@@ -1,5 +1,9 @@
 #!/usr/bin/env php
 <?php
+/*** Only for DEBUG memory_limit errors
+@ini_set("memory_limit", "16M");
+***/
+
 require("set-doc-root.php");
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
