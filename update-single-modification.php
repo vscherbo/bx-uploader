@@ -19,7 +19,13 @@ if ($options["m"] == "")
         exit(1);
 }
 
-$arPeriods = CSiteFinance::ReturnStatusConvertDictionary();
+if ($options["t"] == "") 
+{
+        fwrite(STDERR, $argv[0]." ERROR: parameter -t delivery_period is required.\n" );
+        exit(1);
+}
+
+//$arPeriods = CSiteFinance::ReturnStatusConvertDictionary();
 
 
 $arFilter = array(
@@ -35,28 +41,31 @@ $rsItems = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter, false, fal
 while($ob = $rsItems->GetNextElement())
 {
     $arFields = $ob->GetFields();
-    echo "id=". $arFields["ID"]
+    $ib30_id = $arFields["ID"];
+    /**
+    echo "id=". $ib30_id
         . " name=" . $arFields["NAME"]
         . " section_id=" . $arFields["IBLOCK_SECTION_ID"]
         . " xml_id=". $arFields["XML_ID"]
         . "\n";
+        **/
     // print_r($arFields);
 
-    $db_props = CIBlockElement::GetProperty(30, $arFields["ID"], array("sort" => "asc"), Array("CODE"=>"SKLAD"));
-    if($ar_props = $db_props->Fetch()) {
+    $db_props = CIBlockElement::GetProperty(30, $ib30_id, array("sort" => "asc"), Array("CODE"=>"SKLAD"));
+    if (! ($ar_props = $db_props->Fetch()) ) {
+        fwrite(STDERR, "property SKLAD not found\n");
+    } /**
+    else {
         echo "срок=". $ar_props["VALUE"] . "\n";
-        print_r( CSiteFinance::GetPropertyValuesForPeriodString($ar_props["VALUE"]) );
+    } **/
 
-    } else {
-        echo "property SKLAD not found\n";
-    }
-
-    $db_props = CIBlockElement::GetProperty(30, $arFields["ID"], array("sort" => "asc"), Array("CODE"=>"COD"));
-    if($ar_props = $db_props->Fetch()) {
+    $db_props = CIBlockElement::GetProperty(30, $ib30_id, array("sort" => "asc"), Array("CODE"=>"COD"));
+    if (! ($ar_props = $db_props->Fetch()) ) {
+        fwrite(STDERR, "property COD not found\n");
+    } /**
+    else {
         echo "Код модификации=". $ar_props["VALUE"] . "\n";
-    } else {
-        echo "property COD not found\n";
-    }
+    } **/
 
     $arFilter29 = array(
         "IBLOCK_ID" => "29",
@@ -67,24 +76,29 @@ while($ob = $rsItems->GetNextElement())
     while($ob29 = $rsItems29->GetNextElement())
     {
         $arFields29 = $ob29->GetFields();
+        /**
         echo "id=". $arFields29["ID"]
             . " name=" . $arFields29["NAME"]
             //. " section_id=" . $arFields["IBLOCK_SECTION_ID"]
             //. " xml_id=". $arFields["XML_ID"]
             . "\n";
         // print_r($arFields);
+        print_r ($options["t"]); echo "\n";
+        **/
+        $el30 = new CIBlockElement;
+        $el30->SetPropertyValues($ib30_id, 30, $options["t"], "SKLAD");
+        $res = $el30->Update($ib30_id);
+        if (! ($res) ) {fwrite(STDERR, "Update ib30 failed: ". $el30->LAST_ERROR . "\n" );}
+    
+        CSiteFinance::UpdateItemFinanceInfo($arFields29["ID"]);
+
+        $el29 = new CIBlockElement;
+        $res = $el29->Update($arFields29["ID"]);
+        if (! ($res) ) {fwrite(STDERR, "Update ib29 failed: ". $el29->LAST_ERROR . "\n" );}
+        /**/
     }
 
 
-    /**
-    if ($options["t"] != "")
-        $el->SetPropertyValues($arFields["ID"], 30, $options["t"], "SKLAD");
-
-    CSiteFinance::UpdateItemFinanceInfo($arFields29["ID"]);
-    $res = $el->Update($arFields29["ID"]);
-    if ($res) { echo $arFields29["ID"]; }
-    else {      fwrite(STDERR, "Update ib29 failed: ". $el->LAST_ERROR . "\n" );}
-    **/
 
 }
 
