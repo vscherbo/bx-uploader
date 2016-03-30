@@ -65,7 +65,9 @@ while($ob = $rsItems->GetNextElement())
         $el->SetPropertyValues($arFields["ID"], 29, $options["p"], "MOD_SECTION_ID");
 
     CSiteFinance::UpdateItemFinanceInfo($arFields["ID"]);
-    $res = $el->Update($arFields["ID"]);
+    //$arFiledsUpdate = $arFileds;
+    //$arFiledsUpdate["MODIFIED_BY"] = 6938;
+    $res = $el->Update($arFields["ID"], array("MODIFIED_BY" => 6938));
     if ($res) { echo $arFields["ID"]; }
     else {      fwrite(STDERR, "Update ib29 failed: ". $el->LAST_ERROR . "\n" );}
 }
