@@ -87,13 +87,13 @@ while($ob = $rsItems->GetNextElement())
         **/
         $el30 = new CIBlockElement;
         $el30->SetPropertyValues($ib30_id, 30, $options["t"], "SKLAD");
-        $res = $el30->Update($ib30_id);
+        $res = $el30->Update($ib30_id, array("MODIFIED_BY" => 6938));
         if (! ($res) ) {fwrite(STDERR, "Update ib30 failed: ". $el30->LAST_ERROR . "\n" );}
     
         CSiteFinance::UpdateItemFinanceInfo($arFields29["ID"]);
 
         $el29 = new CIBlockElement;
-        $res = $el29->Update($arFields29["ID"]);
+        $res = $el29->Update($arFields29["ID"], array("MODIFIED_BY" => 6938));
         if (! ($res) ) {fwrite(STDERR, "Update ib29 failed: ". $el29->LAST_ERROR . "\n" );}
         /**/
     }
