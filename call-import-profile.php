@@ -23,7 +23,23 @@ CModule::IncludeModule("iblock");
                         }
                         return true;
                 }
+
         }
+
+        
+        AddEventHandler("iblock", "OnBeforeIBlockElementAdd", "OnBeforeImport");
+        AddEventHandler("iblock", "OnBeforeIBlockelementUpdate", "OnBeforeImport");
+        function OnBeforeImport($arElement)
+        {
+                if (in_array($arElement["IBLOCK_ID"], Array(29, 30, 34)))
+                {
+                        $arElement["MODIFIED_BY"] = 6938;
+                        return true;
+                }
+
+        }
+
+        
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/php_interface/include/catalog_import/cron_frame.php");
 ?>
