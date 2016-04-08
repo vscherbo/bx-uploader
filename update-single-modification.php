@@ -27,10 +27,15 @@ if ($options["t"] == "")
 
 //$arPeriods = CSiteFinance::ReturnStatusConvertDictionary();
 
+$cod_min = (double) $options["m"] - 0.1  ;
+$cod_max = (double) $options["m"] + 0.1  ;
+//echo "cod_min=". (double)$cod_min ."\n";
+//echo "cod_max=". (double)$cod_max ."\n";
 
 $arFilter = array(
     "IBLOCK_ID" => "30",
-    "PROPERTY_COD" => $options["m"],
+    //"PROPERTY_COD" => $options["m"],
+    "><PROPERTY_COD" => array($cod_min, $cod_max),
     "ACTIVE" => "Y",
 );
 
