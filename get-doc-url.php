@@ -102,29 +102,6 @@ while($ob = $rsItems->GetNextElement())
             }
         }
 
-        /**
-        $arFilterSect52 = array(
-             "ID" => $arItem52['IBLOCK_SECTION_ID'],
-             "CODE"=>'manual',
-         );
-        $section52 = GetIBlockSectionList(52, false, Array("sort"=>"asc"), 0, $arFilterSect52);
-        while($arSect52 = $section52->GetNext())
-        {
-            echo "  Doc name=" . $arItem52['NAME'] . "\n";
-            echo "arSect52=" . print_r($arSect52, true) . "\n";
-        }
-        **/
-    }
-    /***
-    $el->SetPropertyValues($arFields["ID"], 29, "N", "EX_SYNC_FLAG");
-    if (895371 == $arFields["ID"]) {
-       if ( $el->Update($arFields["ID"], array()) )
-          echo "updated:".$arFields["NAME"]."\n";
-       else
-          echo "Error: ".$el->LAST_ERROR ."\n";
-
-    }
-    ***/
 }
 
 // echo "cnt=". $cnt . "\n";
