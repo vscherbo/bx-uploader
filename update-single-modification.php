@@ -43,9 +43,11 @@ $arFilter = array(
 $arSelect = Array();
 $rsItems = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
 
+$notFound = True;
 while($ob = $rsItems->GetNextElement())
 {
     $arFields = $ob->GetFields();
+    $notFound = False;
     $ib30_id = $arFields["ID"];
     /**
     echo "id=". $ib30_id
@@ -107,6 +109,7 @@ while($ob = $rsItems->GetNextElement())
 
 }
 
+if ($notFound) {fwrite(STDERR, "Modification_code=[". $options["m"] . "] not found\n");}
 
 
 //////////////////////////////////////////////////////////////////////////////////
