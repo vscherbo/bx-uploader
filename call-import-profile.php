@@ -26,19 +26,29 @@ CModule::IncludeModule("iblock");
 
         }
 
-        
+        /*        */
         AddEventHandler("iblock", "OnBeforeIBlockElementAdd", "OnBeforeImport");
         AddEventHandler("iblock", "OnBeforeIBlockelementUpdate", "OnBeforeImport");
         function OnBeforeImport($arElement)
         {
                 if (in_array($arElement["IBLOCK_ID"], Array(29, 30, 34)))
                 {
-                        $arElement["MODIFIED_BY"] = 6938;
+                        if ( NULL === $arElement["CREATED_BY"] ) {
+                           $arElement["CREATED_BY"] = 6938;
+                           $arElement["MODIFIED_BY"] = NULL;
+                           /* Add the default photo for a brand new item
+                           if ($arElement["IBLOCK_ID"] = 29) {
+                               
+                           }
+                            */
+                        } else {
+                           $arElement["MODIFIED_BY"] = 6938;
+                        }
                         return true;
                 }
 
         }
-
+/* */
         
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/php_interface/include/catalog_import/cron_frame.php");
