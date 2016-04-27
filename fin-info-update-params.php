@@ -33,7 +33,8 @@ if ($options["n"] != "")
 {
 	$arFilter = array(
 	    "IBLOCK_ID" => "29",
-	    "NAME" => $options["n"],
+        "NAME" => $options["n"],
+        "ACTIVE" => "Y",
 	//    "XML_ID" => $options["i"],
 	);
 }
@@ -42,6 +43,7 @@ if ($options["i"] != "")
 {
 	$arFilter = array(
 	    "IBLOCK_ID" => "29",
+        "ACTIVE" => "Y",
 	    "XML_ID" => $options["i"],
 	);
 }
