@@ -38,8 +38,9 @@ while($ob = $rsItems->GetNextElement())
 
     $arSects = explode(',', $argv[2]) ; // массив кодов групп
     //$arSects = (6592);
+    //print_r($arSects);
     $res = $el->SetElementSection($arFields["ID"], $arSects);
-    print_r($res);
+    //print_r($res);
 }
 
 ?>
