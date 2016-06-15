@@ -55,7 +55,7 @@ while($ob = $rsItems->GetNextElement())
         . " section_id=" . $arFields["IBLOCK_SECTION_ID"]
         . " xml_id=". $arFields["XML_ID"]
         . "\n";
-        **/
+    **/
     // print_r($arFields);
 
     $db_props = CIBlockElement::GetProperty(30, $ib30_id, array("sort" => "asc"), Array("CODE"=>"SKLAD"));
@@ -74,16 +74,23 @@ while($ob = $rsItems->GetNextElement())
         echo "Код модификации=". $ar_props["VALUE"] . "\n";
     } **/
 
+    /**
+    echo "arFilter29, "
+	. "PROPERTY_MOD_SECTION_ID=" . $arFields["IBLOCK_SECTION_ID"]
+        . "\n";
+    **/
     $arFilter29 = array(
         "IBLOCK_ID" => "29",
         "PROPERTY_MOD_SECTION_ID" => $arFields["IBLOCK_SECTION_ID"],
         "ACTIVE" => "Y",
     );
+    $notFound29 = True;
     $rsItems29 = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter29, false, false, array() );
     while($ob29 = $rsItems29->GetNextElement())
     {
+        $notFound29 = False;
         $arFields29 = $ob29->GetFields();
-        /**
+	/**
         echo "id=". $arFields29["ID"]
             . " name=" . $arFields29["NAME"]
             //. " section_id=" . $arFields["IBLOCK_SECTION_ID"]
@@ -104,8 +111,7 @@ while($ob = $rsItems->GetNextElement())
         if (! ($res) ) {fwrite(STDERR, "Update ib29 failed: ". $el29->LAST_ERROR . "\n" );}
         /**/
     }
-
-
+    if ($notFound29) {fwrite(STDERR, "Device with Active=Y and PROPERTY_MOD_SECTION_ID=[". $arFields["IBLOCK_SECTION_ID"] . "] not found\n");}
 
 }
 
