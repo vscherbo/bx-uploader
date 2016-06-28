@@ -41,7 +41,7 @@ while($ob = $rsItems->GetNextElement())
     //echo "\n".$arFields["PROPERTY_674_VALUE"]."\n";
     if ($arFields["PROPERTY_674_VALUE"] != "") { 
 	    $ib30_id = $arFields["PROPERTY_674_VALUE"];
-	    $res = CIBlockSection::GetList(Array("SORT" => "DESC"), Array("IBLOCK_ID"=>"30", "ID"=>$ib30_id), false, false, Array() ); //Array("NAME"));
+	    $res = CIBlockSection::GetList(Array("SORT" => "DESC"), Array("IBLOCK_ID"=>"30", "ID"=>$ib30_id), false, Array(), false); //Array("NAME"));
 	    //while ($ar_res = $res->GetNextElement()) {
 	    $not_found = true; 
 	    while ($ar_res = $res->GetNext()) {

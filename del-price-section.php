@@ -55,7 +55,7 @@ $arFilter30 = array(
     "ACTIVE" => "Y",
 );
 $arSelect30 = Array("ID", "NAME", "DATE_ACTIVE_FROM");
-$rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, false, $arSelect30);
+$rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, $arSelect30, false);
 if ( is_null($rsItems) )
 {
     fwrite(STDERR, $argv[0]." ERROR: GetList returns null:". var_export($arFilter30) ."\n");
@@ -92,7 +92,7 @@ while($ob = $rsItems->GetNextElement())
          "ACTIVE" => "Y",
        );
        $arSelect30 = Array("ID", "NAME", "DATE_ACTIVE_FROM");
-       $rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, false, $arSelect30);
+       $rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, $arSelect30, false);
        if ( is_null($rsItems) ) {
            echo "After DeleteSection GetList returns null\n";
        } else {

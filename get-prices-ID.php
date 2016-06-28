@@ -17,13 +17,21 @@ $arFilter = array(
 );
 
 $arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM");
-$rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
+$rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter, false, $arSelect, false);
 
+$cnt=0;
 while($ob = $rsItems->GetNextElement())
 {
  $arFields = $ob->GetFields();
  $ib30_id = $arFields["ID"];
- // echo $arFields["ID"];
+ //echo 'ib30 $arFields["ID"]='. $arFields["ID"] ."\n";
+ $cnt++;
+}
+
+//echo "cnt=".$cnt."\n";
+if ( $cnt != 1) {
+    fwrite(STDERR, $argv[0]." ERROR: Обнаружено ". $cnt ." раздела(-ов) модификаций с именем ".$argv[1] .".\n");
+    exit(2);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +66,7 @@ if ($ib30_id == $ib29_prop674 || is_null($ib29_prop674) ) {
 	);
 
 	$arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM");
-	$rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
+	$rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter, false, $arSelect, false);
 
 	while($ob = $rsItems->GetNextElement())
 	{
