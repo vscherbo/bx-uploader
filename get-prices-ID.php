@@ -29,7 +29,7 @@ while($ob = $rsItems->GetNextElement())
 }
 
 //echo "cnt=".$cnt."\n";
-if ( $cnt != 1) {
+if ( $cnt > 1) {
     fwrite(STDERR, $argv[0]." ERROR: Обнаружено ". $cnt ." раздела(-ов) модификаций с именем ".$argv[1] .".\n");
     exit(2);
 }
