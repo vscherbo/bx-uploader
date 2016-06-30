@@ -73,7 +73,11 @@ if ($ib30_id == $ib29_prop674 || is_null($ib29_prop674) ) {
 	 $arFields = $ob->GetFields();
 	 $prop674_name = $arFields["NAME"];
 	}
-        fwrite(STDERR, "Model_name=". $argv[1] . ", PROP674=". $ib29_prop674 . " with Name=". $prop674_name . ", Modifications_byName_ID=". $ib30_id ."\n");
+    fwrite(STDERR, "Несоответствие: Прибор=". $argv[1] .
+        ", Секция с ценами=". $prop674_name .
+        ", Ид секции в приборе=". $ib29_prop674 .
+        ", Ид секции с именем[".$argv[1]."]=". $ib30_id 
+        ."\n");
 }
 
 ?>
