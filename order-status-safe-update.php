@@ -43,14 +43,20 @@ while($ob = $rsItems->Fetch())
 
 // if equal do nothing
 if ( $orderStatus[$NEW_STATUS] > $orderStatus[$currentStatus] ) {
+    $USER = new CUser;
+    if (!$USER->Authorize(6575)) {
+        fwrite($STDERR, "order-status-safe-update: Ошибка авторизации") ;
+        exit(4);
+    }
+
 	// Update
 	if (!CSaleOrder::StatusOrder($ORDER_ID, $NEW_STATUS)) {
            fwrite($STDERR, "Ошибка установки нового статуса заказа");
-           exit(4);
+           exit(5);
         }
 } elseif ( $orderStatus[$NEW_STATUS] < $orderStatus[$currentStatus] ) {
         fwrite($STDERR, "Текщий статус заказа " .$currentStatus. " больше, чем новый ".$NEW_STATUS. "") ;
-        exit(5);
+        exit(6);
 }
 
 fclose($STDERR);
