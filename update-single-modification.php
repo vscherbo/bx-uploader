@@ -3,10 +3,12 @@
 require("set-doc-root.php");
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+CModule::IncludeModule("catalog");
 
 $shortopts  = "";
 $shortopts .= "m::"; // код модификации, для которой обновляем срок
 $shortopts .= "t::"; // срок поставки - литерал из init_finance.php
+$shortopts .= "q::"; // количество на складе
 
 
 $options = getopt($shortopts);
@@ -25,7 +27,20 @@ if ($options["t"] == "")
         exit(1);
 }
 
-//$arPeriods = CSiteFinance::ReturnStatusConvertDictionary();
+$qnt_set = FALSE;
+if ( $options["q"] != "" )
+{
+    echo "options_q=". $options["q"] ."\n";
+    if ( ! is_numeric($options["q"]) )
+    {
+            fwrite(STDERR, $argv[0]." ERROR: parameter -q is NOT numeric.\n" );
+            exit(1);
+    } else {
+        $qnt = intval($options["q"]);
+        //echo "qnt=". $qnt ."\n";
+        $qnt_set = TRUE;
+    }
+}
 
 $cod_min = (double) $options["m"] - 0.1  ;
 $cod_max = (double) $options["m"] + 0.1  ;
@@ -101,6 +116,12 @@ while($ob = $rsItems->GetNextElement())
         **/
         $el30 = new CIBlockElement;
         $el30->SetPropertyValues($ib30_id, 30, $options["t"], "SKLAD");
+
+        if ( $qnt_set ) {
+            $res = CCatalogProduct::Update($ib30_id, array("QUANTITY" => $qnt));
+            if (! ($res) ) {fwrite(STDERR, "Update ib30 _QUANTITY_ failed: ". $el30->LAST_ERROR . "\n" );}
+        }
+
         $res = $el30->Update($ib30_id, array("MODIFIED_BY" => 6938));
         if (! ($res) ) {fwrite(STDERR, "Update ib30 failed: ". $el30->LAST_ERROR . "\n" );}
     

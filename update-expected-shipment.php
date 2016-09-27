@@ -4,12 +4,10 @@ echo "Start:".date("Y-m-d H:i:s ")."\n";
 require("set-doc-root.php");
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
-CModule::IncludeModule("catalog");
 
 $shortopts  = "";
 $shortopts .= "m::"; // код модификации, для которой обновляем срок
 $shortopts .= "e::"; // ожидаемые поставки
-$shortopts .= "q::"; // количество на складе
 $shortopts .= "d::"; // стандартный срок поставки
 
 
@@ -28,21 +26,6 @@ if ( $options["e"] != "" )
 {
   echo "options_e=". $options["e"] ."\n";
   $expected_shipments = $options["e"];
-}
-
-$qnt_set = FALSE;
-if ( $options["q"] != "" ) 
-{
-    //echo "options_q=". $options["q"] ."\n";
-    if ( ! is_numeric($options["q"]) ) 
-    {
-            fwrite(STDERR, $argv[0]." ERROR: parameter -q is NOT numeric.\n" );
-            exit(1);
-    } else {
-        $qnt = intval($options["q"]);
-        //echo "qnt=". $qnt ."\n";
-        $qnt_set = TRUE;
-    }
 }
 
 $def_delivery = '';
@@ -113,11 +96,6 @@ while($ob = $rsItems->GetNextElement())
 
         if ( $def_delivery != '' ) {
             $el30->SetPropertyValues($ib30_id, 30, $options["d"], "DEFAULT_DELIVERY_PERIOD");
-        }
-
-        if ( $qnt_set ) {
-            $res = CCatalogProduct::Update($ib30_id, array("QUANTITY" => $qnt));
-            if (! ($res) ) {fwrite(STDERR, "Update ib30 _QUANTITY_ failed: ". $el30->LAST_ERROR . "\n" );}
         }
 
         $res = $el30->Update($ib30_id, array("MODIFIED_BY" => 6938));
