@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-echo "Start:".date("Y-m-d H:i:s ")."\n";
+//echo "Start:".date("Y-m-d H:i:s ")."\n";
 require("set-doc-root.php");
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
@@ -24,7 +24,7 @@ if ($options["m"] == "")
 $expected_shipments = '';
 if ( $options["e"] != "" ) 
 {
-  echo "options_e=". $options["e"] ."\n";
+  //echo "options_e=". $options["e"] ."\n";
   $expected_shipments = $options["e"];
 }
 
@@ -44,29 +44,29 @@ $cod_max = (double) $options["m"] + 0.1  ;
 
 $arFilter = array(
     "IBLOCK_ID" => "30",
-    "PROPERTY_COD" => intval($options["m"]),
+    //"PROPERTY_COD" => intval($options["m"]),
     //"PROPERTY_COD" => round((double)$options["m"], 0),
-    //"><PROPERTY_COD" => array($cod_min, $cod_max),
+    "><PROPERTY_COD" => array($cod_min, $cod_max),
     "ACTIVE" => "Y",
 );
 
 //$arSelect = Array("ID", "NAME", "PROPERTY_*");
 $arSelect = Array();
 $rsItems = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
-echo "ib30:".date("Y-m-d H:i:s ")."\n";
+//echo "ib30:".date("Y-m-d H:i:s ")."\n";
 $notFound = True;
 while($ob = $rsItems->GetNextElement())
 {
     $arFields = $ob->GetFields();
     $notFound = False;
     $ib30_id = $arFields["ID"];
-    /**/
+    /**
     echo "id=". $ib30_id
         . " name=" . $arFields["NAME"]
         . " section_id=" . $arFields["IBLOCK_SECTION_ID"]
         . " xml_id=". $arFields["XML_ID"]
         . "\n";
-    /**/
+    **/
 
     $arFilter29 = array(
         "IBLOCK_ID" => "29",
@@ -75,7 +75,7 @@ while($ob = $rsItems->GetNextElement())
     );
     $notFound29 = True;
     $rsItems29 = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter29, false, false, array() );
-    echo "ib29:".date("Y-m-d H:i:s ")."\n";
+    //echo "ib29:".date("Y-m-d H:i:s ")."\n";
     while($ob29 = $rsItems29->GetNextElement())
     {
         $notFound29 = False;
@@ -103,12 +103,12 @@ while($ob = $rsItems->GetNextElement())
         //echo "after Update ib30:".date("Y-m-d H:i:s ")."\n";
 
         CSiteFinance::UpdateItemFinanceInfo($arFields29["ID"]);
-        echo "after UpdateItemFinanceInfo:".date("Y-m-d H:i:s ")."\n";
+        //echo "after UpdateItemFinanceInfo:".date("Y-m-d H:i:s ")."\n";
 
         $el29 = new CIBlockElement;
         $res = $el29->Update($arFields29["ID"], array("MODIFIED_BY" => 6938));
         if (! ($res) ) {fwrite(STDERR, "Update ib29 failed: ". $el29->LAST_ERROR . "\n" );}
-        echo "after Update ib29:".date("Y-m-d H:i:s ")."\n";
+        //echo "after Update ib29:".date("Y-m-d H:i:s ")."\n";
         /**/
     }
     if ($notFound29) {fwrite(STDERR, "Device with Active=Y and PROPERTY_MOD_SECTION_ID=[". $arFields["IBLOCK_SECTION_ID"] . "] not found\n");}
