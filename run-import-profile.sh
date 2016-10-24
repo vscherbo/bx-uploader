@@ -29,6 +29,8 @@ case $1 in
       ;;
   45) $CHATTR "/home/uploader/upload/import-price-xml.csv"
       ;;
+  35) $CHATTR "/home/uploader/upload/import-update.csv"
+      ;;
    *) echo "ERROR: Unknown profile. Exiting"
       exit 123
 esac
