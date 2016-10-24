@@ -35,9 +35,9 @@ if ( $options["d"] != "" )
   $def_delivery = $options["d"];
 }
 
-
-$cod_min = (double) $options["m"] - 0.1  ;
-$cod_max = (double) $options["m"] + 0.1  ;
+$mod_id = $options["m"];
+$cod_min = (double) $mod_id - 0.1  ;
+$cod_max = (double) $mod_id + 0.1  ;
 //echo "cod_min=". (double)$cod_min ."\n";
 //echo "cod_max=". (double)$cod_max ."\n";
 /**/
@@ -45,7 +45,7 @@ $cod_max = (double) $options["m"] + 0.1  ;
 $arFilter = array(
     "IBLOCK_ID" => "30",
     //"PROPERTY_COD" => intval($options["m"]),
-    //"PROPERTY_COD" => round((double)$options["m"], 0),
+    //"PROPERTY_COD" => round((double)$mod_id, 0),
     "><PROPERTY_COD" => array($cod_min, $cod_max),
     "ACTIVE" => "Y",
 );
