@@ -30,7 +30,7 @@ if ($options["t"] == "")
 $qnt_set = FALSE;
 if ( $options["q"] != "" )
 {
-    echo "options_q=". $options["q"] ."\n";
+    // echo "options_q=". $options["q"] ."\n";
     if ( ! is_numeric($options["q"]) )
     {
             fwrite(STDERR, $argv[0]." ERROR: parameter -q is NOT numeric.\n" );
