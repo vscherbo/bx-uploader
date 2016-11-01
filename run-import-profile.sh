@@ -2,8 +2,8 @@
 
 [ +$1 == + ] && { echo "1st parameter import_profile_ID is missed."; exit 123; }
 
-# fast patch
-# csv-filename must be passed as parameter according to devmod.impex table
+# TODO 
+# csv-filename must be passed as an parameter according to devmod.impex table
 
 protect_csv() {
 # $1 - profile id
@@ -17,26 +17,30 @@ else
 fi
 
 case $1 in
-  38) $CHATTR "/home/uploader/upload/import-catalog.csv"
+  38) CSV_FILE="/home/uploader/upload/import-catalog.csv"
       ;;
-  49) $CHATTR "/home/uploader/upload/import-modificators.csv"
+  49) CSV_FILE="/home/uploader/upload/import-modificators.csv"
       ;;
-  48) $CHATTR "/home/uploader/upload/import-price.csv"
+  48) CSV_FILE="/home/uploader/upload/import-price.csv"
       ;;
-  44) $CHATTR "/home/uploader/upload/import-catalog-xml.csv"
+  44) CSV_FILE="/home/uploader/upload/import-catalog-xml.csv"
       ;;
-  41) $CHATTR "/home/uploader/upload/import-modificators-xml.csv"
+  41) CSV_FILE="/home/uploader/upload/import-modificators-xml.csv"
       ;;
-  45) $CHATTR "/home/uploader/upload/import-price-xml.csv"
+  45) CSV_FILE="/home/uploader/upload/import-price-xml.csv"
       ;;
-  35) $CHATTR "/home/uploader/upload/import-update.csv"
+  35) CSV_FILE="/home/uploader/upload/import-update.csv"
       ;;
    *) echo "ERROR: Unknown profile. Exiting"
       exit 123
 esac
-}
+$CHATTR $CSV_FILE
+} # End of protect_csv
 
 protect_csv $1 on
 /bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/php $ARC_PATH/call-import-profile.php $1
 protect_csv $1 off
 
+# do not import the same csv one more time
+DT=`date +%F_%H_%M_%S`
+mv $CSV_FILE $CSV_FILE-$DT
