@@ -82,33 +82,29 @@ while($ob = $rsItems->GetNextElement())
 	exit(3);
    }
    else {
-       $DB->Commit();
-       echo "Delete commited\n";
+        $DB->Commit();
+        echo "Delete commited\n";
 /**/
-       // Check if deleted
-       $arFilter30 = array(
+        // Check if deleted
+        $arFilter30 = array(
          "IBLOCK_ID" => "30",
          "ID" => $arSect["ID"],
          "ACTIVE" => "Y",
-       );
-       $arSelect30 = Array("ID", "NAME", "DATE_ACTIVE_FROM");
-       $rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, $arSelect30, false);
-       if ( is_null($rsItems) ) {
-           echo "After DeleteSection GetList returns null\n";
-       } else {
-		    $noElements = true;
-            while($ob = $rsItems->GetNextElement())
-            {
-               $arSect = $ob->GetFields();
-               $noElements = false;
-            }
-            if ($noElements) {
-               echo "Deleted section not found. Ok.\n";
-            } else {  
-               fwrite(STDERR, $argv[0]." ERROR: Deleted section found:". var_export($arFilter30) ."\n");
-               exit(2);
-            }
-       }
+        );
+        $arSelect30 = Array("ID", "NAME", "DATE_ACTIVE_FROM");
+        $rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, $arSelect30, false);
+        $noElements = true;
+        while($ob = $rsItems->GetNextElement())
+        {
+           $arSect = $ob->GetFields();
+           $noElements = false;
+        }
+        if ($noElements) {
+           echo "Deleted section not found. Ok.\n";
+        } else {  
+           fwrite(STDERR, $argv[0]." ERROR: Deleted section found:". var_export($arFilter30) ."\n");
+           exit(2);
+        }
 /**/
    }
 

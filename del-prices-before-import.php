@@ -46,13 +46,6 @@ $arFilter30 = array(
     "SECTION_ID" => $prices_id,
 );
 $res = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter30, false, false, $arSelect30);
-if ( is_null($rsItems) )
-{ 
-    fwrite(STDERR, "ERROR: An empty list of prices in Section=".$prices_id ."\n" );
-    // echo "ERROR: An empty list of prices in Section=".$prices_id ."\n";
-    exit(2);
-}
-
 // loop modification in found section
 while($item = $res->GetNextElement())
 {
