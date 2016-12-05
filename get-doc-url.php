@@ -81,13 +81,14 @@ while($ob = $rsItems->GetNextElement())
         //echo "arItem52=" . print_r($arItem52, true) . "\n";
         $nav = CIBlockSection::GetNavChain(52, $arItem52["IBLOCK_SECTION_ID"]);
         $flg_manual = false;
-        while ($arNav=$nav->GetNext()):
+        while ($arNav=$nav->GetNext()) {
             if ('manual' == $arNav["CODE"]) {
                $flg_manual = true;
                // echo $arNav["CODE"]."::" . $arNav["NAME"]. "(" .$arNav["ID"].  ")" ."->";
                //print_r($arNav);
             }
-        endwhile;
+        }
+
         if ( $flg_manual) {
             // echo $arItem52["NAME"] . "(" .$arItem52["ID"].  ")" . "^URL=" . $arItem52["DETAIL_PAGE_URL"] ;
             if ( "" == $doc_url ) {
@@ -102,6 +103,7 @@ while($ob = $rsItems->GetNextElement())
             }
         }
 
+    }
 }
 
 // echo "cnt=". $cnt . "\n";
