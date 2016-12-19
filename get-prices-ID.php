@@ -44,7 +44,7 @@ $arFilter = array(
 
 //674 - модификации
 //675 - модификаторы
-$arSelect = Array("ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_674", "PROPERTY_675" );
+$arSelect = Array("IBLOCK_ID", "ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_674", "PROPERTY_675" );
 
 $el = new CIBlockElement;
 $rsItems = $el->GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);

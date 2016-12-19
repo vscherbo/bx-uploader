@@ -52,7 +52,7 @@ if ($options["i"] != "")
 
 //609 - производитель 315128 Haupa "PROD_ID"
 //656 - дилерская позиция "EX_SYNC_FLAG"
-$arSelect = Array("ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_607" );
+$arSelect = Array("IBLOCK_ID", "ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_607" );
 
 $el = new CIBlockElement;
 $rsItems = $el->GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);

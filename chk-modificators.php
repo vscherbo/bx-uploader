@@ -12,7 +12,7 @@ $arFilter = array(
     "ACTIVE" => "Y",
 );
 
-$arSelect = Array("ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_*" );
+$arSelect = Array("IBLOCK_ID", "ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_*" );
 
 $el = new CIBlockElement;
 $rsItems = $el->GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);

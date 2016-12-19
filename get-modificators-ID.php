@@ -18,7 +18,7 @@ $arFilter = array(
 //    "NAME" => "AR-5531-03",
 );
 
-$arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM");
+$arSelect = Array("IBLOCK_ID", "ID", "NAME", "DATE_ACTIVE_FROM");
 $rsItems = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
 
 $cnt = 0;

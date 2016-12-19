@@ -45,7 +45,7 @@ $arFilter30 = array(
     "IBLOCK_ID" => "30",
     "SECTION_ID" => $prices_id,
 );
-$res = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter30, false, false, $arSelect30);
+$res = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter30, false, false, array());
 // loop modification in found section
 while($item = $res->GetNextElement())
 {

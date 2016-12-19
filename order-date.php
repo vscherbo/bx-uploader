@@ -8,7 +8,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.ph
 
 CModule::IncludeModule("sale");
 
-$rsItems = CIBlockElement::GetList(Array(), Array("IBLOCK_ID" => 56, ">PROPERTY_ORDER_ID" => 1), false, false, Array("ID", "IBLOCK_ID", "NAME", "PROPERTY_ORDER_ID", "PROPERTY_PAYMENT_FLAG", "PROPERTY_DELIVERY_FLAG"));
+$rsItems = CIBlockElement::GetList(Array(), Array("IBLOCK_ID" => 56, ">PROPERTY_ORDER_ID" => 1), false, false, Array("IBLOCK_ID", "ID", "IBLOCK_ID", "NAME", "PROPERTY_ORDER_ID", "PROPERTY_PAYMENT_FLAG", "PROPERTY_DELIVERY_FLAG"));
 while($arItem = $rsItems->GetNext())
 {
 	$order_id = $arItem["PROPERTY_ORDER_ID_VALUE"];

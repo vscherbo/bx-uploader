@@ -23,7 +23,7 @@ $arFilter = array(
 
 //674 - модификации
 //675 - модификаторы
-$arSelect = Array("ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_674", "PROPERTY_675" );
+$arSelect = Array("IBLOCK_ID", "ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_674", "PROPERTY_675" );
 
 $el = new CIBlockElement;
 $rsItems = $el->GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
@@ -56,13 +56,6 @@ $arFilter30 = array(
 );
 $arSelect30 = Array("ID", "NAME", "DATE_ACTIVE_FROM");
 $rsItems = CIBlockSection::GetList(Array("SORT" => "ASC"), $arFilter30, false, $arSelect30, false);
-if ( is_null($rsItems) )
-{
-    fwrite(STDERR, $argv[0]." ERROR: GetList returns null:". var_export($arFilter30) ."\n");
-    exit(2);
-} else {
-    echo "Price section with id(prop674)=".$prices_id." found\n";
-}
 
 $noElements = true;
 while($ob = $rsItems->GetNextElement())
