@@ -44,7 +44,11 @@ protect_csv $1 off
 # do not import the same csv one more time
 DT=`date +%F_%H_%M_%S`
 mv $CSV_FILE $CSV_FILE-$DT
-FIN_INFO_CSV='/home/uploader/upload/fin-info-update-list.csv'
-rm -f $FIN_INFO_CSV
-ln -sf $CSV_FILE-$DT $FIN_INFO_CSV
+
+if [ $1 -eq 35 ]
+then    
+    FIN_INFO_CSV='/home/uploader/upload/fin-info-update-list.csv'
+    rm -f $FIN_INFO_CSV
+    ln -sf $CSV_FILE-$DT $FIN_INFO_CSV
+fi    
 
