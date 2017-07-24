@@ -30,7 +30,8 @@ if ($options["n"] != "")
     $arFilter = array(
         "IBLOCK_ID" => "29",
         "ACTIVE" => "Y",
-        "NAME" => $options["n"],
+        "NAME" => array("PIJ", "PLB"),
+        // "NAME" => $options["n"],
         // "!PROPERTY_607" => false,
     );
 }
@@ -44,6 +45,8 @@ if ($options["i"] != "")
         "!PROPERTY_607" => false,
     );
 }
+
+var_dump($argv);
 
 
 $arSelect = Array("IBLOCK_ID", "ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PREVIEW_PICTURE" );
@@ -60,7 +63,7 @@ while($ob = $rsItems->GetNextElement())
     //echo " Прибор=".$arFields["NAME"]."\n";
     //print_r($arFields);
     $img_path = CFile::GetPath($arFields["PREVIEW_PICTURE"]);
-    echo $img_path."\n";
+    echo $devName."^".$img_path."\n";
 }
 
 ?>
