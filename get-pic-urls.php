@@ -5,49 +5,31 @@ require("set-doc-root.php");
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 
 $shortopts  = "";
-$shortopts .= "n:";  // name - обязательное значение (или i)
-$shortopts .= "i:";  // xml_id - обязательное значение (или n)
+$shortopts .= "l:";  // name - обязательное значение (или i)
 
 $options = getopt($shortopts);
 // var_dump($options);
 
 
-if ( ($options["n"] != "") && ($options["i"] != "")  )
+if ($options["l"] == "")
 {
-        fwrite(STDERR, $argv[0]." ERROR: only one parameter -n Model_name OR -i XML_ID allowed.\n" );
-        exit(1);
-}
-
-if ( ($options["n"] == "") && ($options["i"] == "")  )
-{
-        fwrite(STDERR, $argv[0]." ERROR: parameter -n Model_name OR -i XML_ID is required.\n" );
+        fwrite(STDERR, $argv[0]." ERROR: parameter -l Model_name_List.\n" );
         exit(1);
 }
 
 
-if ($options["n"] != "")
+$ar_dev_names = explode("^", $options["l"]);
+
+if ($options["l"] != "")
 {
     $arFilter = array(
         "IBLOCK_ID" => "29",
         "ACTIVE" => "Y",
-        "NAME" => array("PIJ", "PLB"),
+        "NAME" => $ar_dev_names,
         // "NAME" => $options["n"],
         // "!PROPERTY_607" => false,
     );
 }
-
-if ($options["i"] != "")
-{
-    $arFilter = array(
-        "IBLOCK_ID" => "29",
-        "ACTIVE" => "Y",
-        "XML_ID" => $options["i"],
-        "!PROPERTY_607" => false,
-    );
-}
-
-var_dump($argv);
-
 
 $arSelect = Array("IBLOCK_ID", "ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PREVIEW_PICTURE" );
 
