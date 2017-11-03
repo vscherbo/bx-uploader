@@ -128,7 +128,7 @@ while($ob = $rsItems->GetNextElement())
         }
 
         $el29 = new CIBlockElement;
-        $res = $el29->Update($arFields29["ID"], array("MODIFIED_BY" => 6938));
+        $res = $el29->Update($arFields29["ID"], array("ACTIVE"=>$arFields29["ACTIVE"], "MODIFIED_BY" => 6938));
         if (! ($res) ) {fwrite(STDERR, "Update ib29 failed: ". $el29->LAST_ERROR . "\n" );}
         /**/
     }
