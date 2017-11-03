@@ -8,8 +8,6 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.ph
 $shortopts  = "";
 $shortopts .= "m::"; // код модификации, для которой обновляем срок
 $shortopts .= "e::"; // ожидаемые поставки
-$shortopts .= "d::"; // стандартный срок поставки
-
 
 $options = getopt($shortopts);
 // var_dump($options);
@@ -26,13 +24,6 @@ if ( $options["e"] != "" )
 {
   //echo "options_e=". $options["e"] ."\n";
   $expected_shipments = $options["e"];
-}
-
-$def_delivery = '';
-if ( $options["d"] != "" ) 
-{
-  //echo "options_d=". $options["d"] ."\n";
-  $def_delivery = $options["d"];
 }
 
 $mod_id = $options["m"];
@@ -80,46 +71,18 @@ while($ob = $rsItems->GetNextElement())
     {
         $notFound29 = False;
         $arFields29 = $ob29->GetFields();
-	/**
-        echo "id=". $arFields29["ID"]
-            . " name=" . $arFields29["NAME"]
-            //. " section_id=" . $arFields["IBLOCK_SECTION_ID"]
-            //. " xml_id=". $arFields["XML_ID"]
-            . "\n";
-        // print_r($arFields);
-        print_r ($options["t"]); echo "\n";
-        **/
-        $el30 = new CIBlockElement;
-        if ( $expected_shipments != '' ) {
-            $el30->SetPropertyValues($ib30_id, 30, $options["e"], "EXPECTED_SHIPMENTS");
-        }
 
-        if ( $def_delivery != '' ) {
-            $el30->SetPropertyValues($ib30_id, 30, $options["d"], "DEFAULT_DELIVERY_PERIOD");
-        }
+        $el30 = new CIBlockElement;
+        $el30->SetPropertyValues($ib30_id, 30, $expected_shipments, "EXPECTED_SHIPMENTS");
 
         $res = $el30->Update($ib30_id, array("MODIFIED_BY" => 6938));
         if (! ($res) ) {fwrite(STDERR, "Update ib30 failed: ". $el30->LAST_ERROR . "\n" );}
         //echo "after Update ib30:".date("Y-m-d H:i:s ")."\n";
-
-        CSiteFinance::UpdateItemFinanceInfo($arFields29["ID"]);
-        //echo "after UpdateItemFinanceInfo:".date("Y-m-d H:i:s ")."\n";
-
-        $el29 = new CIBlockElement;
-        $res = $el29->Update($arFields29["ID"], array("MODIFIED_BY" => 6938));
-        if (! ($res) ) {fwrite(STDERR, "Update ib29 failed: ". $el29->LAST_ERROR . "\n" );}
-        //echo "after Update ib29:".date("Y-m-d H:i:s ")."\n";
-        /**/
     }
     if ($notFound29) {fwrite(STDERR, "Device with Active=Y and PROPERTY_MOD_SECTION_ID=[". $arFields["IBLOCK_SECTION_ID"] . "] not found\n");}
 
 }
 
 if ($notFound) {fwrite(STDERR, "Modification_code=[". $options["m"] . "] not found\n");}
-
-
-//////////////////////////////////////////////////////////////////////////////////
-
-// UpdateItemFinanceInfo($item_id)
 
 ?>
