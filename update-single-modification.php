@@ -58,9 +58,15 @@ $arFilter = array(
 $arSelect = Array();
 $rsItems = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
 
+$mod_id_cnt = 0;
 $notFound = True;
 while($ob = $rsItems->GetNextElement())
 {
+    $mod_id_cnt++ ;
+    if ($mod_id_cnt > 1 ) { // stop loop
+        break;
+    }
+
     $arFields = $ob->GetFields();
     $notFound = False;
     $ib30_id = $arFields["ID"];
@@ -99,13 +105,19 @@ while($ob = $rsItems->GetNextElement())
         "PROPERTY_MOD_SECTION_ID" => $arFields["IBLOCK_SECTION_ID"],
         "ACTIVE" => "Y",
     );
+    $ib29_cnt = 0;
     $notFound29 = True;
     $rsItems29 = CIBlockElement::GetList(Array("SORT" => "ASC"), $arFilter29, false, false, array() );
     while($ob29 = $rsItems29->GetNextElement())
     {
+        $ib29_cnt++ ;
+        if ($ib29_cnt > 1 ) { // stop loop
+            break;
+        }
+
         $notFound29 = False;
         $arFields29 = $ob29->GetFields();
-	/**
+	    /**
         echo "id=". $arFields29["ID"]
             . " name=" . $arFields29["NAME"]
             //. " section_id=" . $arFields["IBLOCK_SECTION_ID"]
@@ -133,10 +145,12 @@ while($ob = $rsItems->GetNextElement())
         /**/
     }
     if ($notFound29) {fwrite(STDERR, "Device with Active=Y and PROPERTY_MOD_SECTION_ID=[". $arFields["IBLOCK_SECTION_ID"] . "] not found\n");}
+    if ($ib29_cnt > 1 ) {fwrite(STDERR, "More than 1 device with Active=Y and PROPERTY_MOD_SECTION_ID=[". $arFields["IBLOCK_SECTION_ID"] . "] found\n");}
 
 }
 
 if ($notFound) {fwrite(STDERR, "Modification_code=[". $options["m"] . "] not found\n");}
+if ($mod_id_cnt > 1 ) {fwrite(STDERR, "More than 1 Modification_code=[". $options["m"] . "] found\n");}
 
 
 //////////////////////////////////////////////////////////////////////////////////
