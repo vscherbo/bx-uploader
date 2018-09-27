@@ -36,9 +36,15 @@ if ( $options["q"] != "" )
             fwrite(STDERR, $argv[0]." ERROR: parameter -q is NOT numeric.\n" );
             exit(1);
     } else {
-        $qnt = intval($options["q"]);
+        $res = preg_match('/[.,]/', $options["q"]);
+        if ( 1 == $res ) { // delimiter found
+            $qnt = floatval($options["q"]);
+            $qnt_set = TRUE;
+        } elseif ( 0 == $res ) { // not found
+            $qnt = intval($options["q"]);
+            $qnt_set = TRUE;
+        }
         //echo "qnt=". $qnt ."\n";
-        $qnt_set = TRUE;
     }
 }
 
