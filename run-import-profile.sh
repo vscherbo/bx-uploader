@@ -34,6 +34,8 @@ case $1 in
    *) echo "ERROR: Unknown profile. Exiting"
       exit 123
 esac
+
+[ -e $CSV_FILE ] || touch $CSV_FILE
 $CHATTR $CSV_FILE
 } # End of protect_csv
 
