@@ -16,6 +16,13 @@ if ($argv[2] == "")
     exit(2);
 }
 
+if ($argv[3] == "force")
+{
+    $FORCE_MODE = True;
+} else {
+    $FORCE_MODE = False;
+}
+
 $ORDER_ID = $argv[1];
 $NEW_STATUS = $argv[2];
 
@@ -38,8 +45,11 @@ while($ob = $rsItems->Fetch())
     $orderStatus[ $ob["ID"] ] = $cnt++ ;
 }
 
+$DO_UPDATE = (( $FORCE_MODE) || ( $orderStatus[$NEW_STATUS] > $orderStatus[$currentStatus] )) ;
+
 // if equal do nothing
-if ( $orderStatus[$NEW_STATUS] > $orderStatus[$currentStatus] ) {
+// OLD if ( $orderStatus[$NEW_STATUS] > $orderStatus[$currentStatus] ) {
+if ( $DO_UPDATE ) {
     $USER = new CUser;
     if (!$USER->Authorize(6575)) {
         fwrite(STDERR, "order-status-safe-update: Ошибка авторизации") ;
