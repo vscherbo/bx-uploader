@@ -31,6 +31,10 @@ case $1 in
       ;;
   35) CSV_FILE="/home/uploader/upload/import-update.csv"
       ;;
+  59) CSV_FILE="/home/uploader/upload/import-subords.csv"
+      ;;
+  61) CSV_FILE="/home/uploader/upload/import_art_history.csv"
+      ;;
    *) echo "ERROR: Unknown profile. Exiting"
       exit 123
 esac
