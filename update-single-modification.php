@@ -6,9 +6,10 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.ph
 CModule::IncludeModule("catalog");
 
 $shortopts  = "";
-$shortopts .= "m::"; // код модификации, для которой обновляем срок
-$shortopts .= "t::"; // срок поставки - литерал из init_finance.php
+$shortopts .= "m:"; // код модификации, для которой обновляем срок
+$shortopts .= "t:"; // срок поставки - литерал из init_finance.php
 $shortopts .= "q::"; // количество на складе
+$shortopts .= "a::"; // активность
 
 
 $options = getopt($shortopts);
@@ -47,6 +48,14 @@ if ( $options["q"] != "" )
         //echo "qnt=". $qnt ."\n";
     }
 }
+
+if ( $options["a"] == "" ) {
+    $ib_29_active_filter = 'Y';
+    //echo "active\n";
+} else {
+    $ib_29_active_filter = 'N';
+    //echo "inactive\n";
+} // options a
 
 $cod_min = (double) $options["m"] - 0.1  ;
 $cod_max = (double) $options["m"] + 0.1  ;
@@ -109,7 +118,8 @@ while($ob = $rsItems->GetNextElement())
     $arFilter29 = array(
         "IBLOCK_ID" => "29",
         "PROPERTY_MOD_SECTION_ID" => $arFields["IBLOCK_SECTION_ID"],
-        "ACTIVE" => "Y",
+        //"ACTIVE" => "Y",
+        "ACTIVE" => $ib_29_active_filter,
     );
     $ib29_cnt = 0;
     $notFound29 = True;

@@ -10,12 +10,19 @@ if ($argv[1] == "")
     exit(1);
 }
 
+if ($argv[2] == "inactive")
+{
+    $active = "N";
+} else {
+    $active = "Y";
+}
+
 $arFilter = array(
     "IBLOCK_ID" => "29",
     "NAME" => $argv[1],
     // "NAME" => "AC-8M",
     // "NAME" => "AR-2W12",
-    "ACTIVE" => "Y",
+    "ACTIVE" => $active,
 );
 
 $arSelect = Array("IBLOCK_ID", "ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "IBLOCK_SECTION_ID");

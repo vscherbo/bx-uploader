@@ -18,7 +18,7 @@ if ($argv[1] == "")
 $arFilter = array(
     "IBLOCK_ID" => "29",
     "NAME" => $argv[1],
-    "ACTIVE" => "Y",
+//    "ACTIVE" => "Y",
 );
 
 //674 - модификации

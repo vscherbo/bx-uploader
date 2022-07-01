@@ -37,6 +37,8 @@ case $1 in
       ;;
   63) CSV_FILE="/home/uploader/upload/art_history_diff.csv"
       ;;
+  64) CSV_FILE="/home/uploader/upload/import-inactive.csv"
+      ;;
    *) echo "ERROR: Unknown profile. Exiting"
       exit 123
 esac
@@ -49,7 +51,7 @@ protect_csv $1 on
 /bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/php $ARC_PATH/call-import-profile.php $1
 protect_csv $1 off
 
-# do not import the same csv one more time
+# do not import the same csv more than once
 DT=`date +%F_%H_%M_%S`
 mv $CSV_FILE $CSV_FILE-$DT
 
