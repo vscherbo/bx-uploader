@@ -19,6 +19,7 @@ if (!($arOrder = CSaleOrder::GetByID($ORDER_ID)))
 else
 {
    //print_r($arOrder["STATUS_ID"]);
-   echo $arOrder["STATUS_ID"] ; // . "\n";
+   print_r($arOrder);
+   // echo $arOrder["STATUS_ID"] ; // . "\n";
 }
 ?>
