@@ -33,45 +33,49 @@ if ($options["n"] != "")
 {
 	$arFilter = array(
 	    "IBLOCK_ID" => "29",
-        "NAME" => $options["n"],
-  //2020      "ACTIVE" => "Y",
-	//    "XML_ID" => $options["i"],
+	    "NAME" => $options["n"],
+        //"ACTIVE" => "Y",
 	);
+	$filter_str =  sprintf("NAME=%s", $options["n"]);
 }
 
 if ($options["i"] != "")
 {
 	$arFilter = array(
 	    "IBLOCK_ID" => "29",
-//2020        "ACTIVE" => "Y",
+	    //"ACTIVE" => "Y",
 	    "XML_ID" => $options["i"],
 	);
+	$filter_str =  sprintf("XML_ID=%s", $options["i"]);
 }
 
 //$arSelect = Array("IBLOCK_ID", "ID", "NAME", "TIMESTAMP_X", "MODIFIED_BY", "PROPERTY_VALUES");
 
 $el = new CIBlockElement;
-$rsItems = $el->GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
-// print_r($rsItems);
+$cnt = $el->GetList(Array("SORT" => "ASC"), $arFilter, array(), false, $arSelect);
+if ($cnt > 1) {
+	fwrite(STDERR, sprintf("по фильтру %s найдено больше одного (%s) прибора\n", $filter_str, $cnt ));
+} else {
+	$rsItems = $el->GetList(Array("SORT" => "ASC"), $arFilter, false, false, $arSelect);
 
-while($ob = $rsItems->GetNextElement())
-{
-    $arFields = $ob->GetFields();
-    // echo $arFields["NAME"]."\n";
-    // echo $arFields["ID"]."\n";
+	while($ob = $rsItems->GetNextElement())
+	{
+	    $arFields = $ob->GetFields();
+	    //echo $arFields["NAME"]."\n";
+	    //echo $arFields["ID"]."\n";
 
-    if ($options["m"] != "")
-        $el->SetPropertyValues($arFields["ID"], 29, $options["m"], "MOD_ITEM_ID");
+	    if ($options["m"] != "")
+		$el->SetPropertyValues($arFields["ID"], 29, $options["m"], "MOD_ITEM_ID");
 
-    if ($options["p"] != "")
-        $el->SetPropertyValues($arFields["ID"], 29, $options["p"], "MOD_SECTION_ID");
+	    if ($options["p"] != "")
+		$el->SetPropertyValues($arFields["ID"], 29, $options["p"], "MOD_SECTION_ID");
 
-    CSiteFinance::UpdateItemFinanceInfo($arFields["ID"]);
-    //$arFiledsUpdate = $arFileds;
-    //$arFiledsUpdate["MODIFIED_BY"] = 6938;
-    $res = $el->Update($arFields["ID"], array("MODIFIED_BY" => 6938));
-    if ($res) { echo $arFields["ID"]; }
-    else {      fwrite(STDERR, "Update ib29 failed: ". $el->LAST_ERROR . "\n" );}
+	    CSiteFinance::UpdateItemFinanceInfo($arFields["ID"]);
+	    //$arFiledsUpdate = $arFileds;
+	    //$arFiledsUpdate["MODIFIED_BY"] = 6938;
+	    $res = $el->Update($arFields["ID"], array("MODIFIED_BY" => 6938));
+	    if ($res) { echo $arFields["ID"]; }
+	    else {      fwrite(STDERR, "Update ib29 failed: ". $el->LAST_ERROR . "\n" );}
+	}
 }
-
 ?>
